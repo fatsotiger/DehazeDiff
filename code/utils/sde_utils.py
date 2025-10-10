@@ -346,10 +346,10 @@ class IRSDE(SDE):
                 score = self.score_fn(x, t, **kwargs)
                 x = self.reverse_sde_step(x, score, t)
                 # tvutils.save_image(x.transpose(0, 1)[3].data, f'output/state/state_{idx}.png', normalize=False)
-                x = 0.2*x+0.7*y+0.1*y
-                # w = torch.sigmoid(self.sigma(t)**2 / self.sigma(t)**2 + self.sigma(t - sign)**2) # self.sigma_bar(t) / self.sigma_bar(t) + self.sigma_bar(t - sign)
+                # x = 0.2*x+0.7*y+0.1*y
+                w = torch.sigmoid(self.sigma(t)**2 / self.sigma(t)**2 + self.sigma(t - sign)**2) # self.sigma_bar(t) / self.sigma_bar(t) + self.sigma_bar(t - sign)
                 # print(w.mean())
-                # x = w * y + (1 - w) *x
+                x = w * y + (1 - w) *x
                 # print('t = ',t)
                 idx_ = idx + sign
                 for i in reversed(range(t, t + sign)):
